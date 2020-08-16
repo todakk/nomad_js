@@ -5,9 +5,35 @@ const toDoForm = document.querySelector('.js-toDoForm'),
 
 const TODOS_LS = 'toDos';
 
+
+
+//20200817
+function filterFn(toDo){
+    return toDo.id === 1;
+
+}
+
 //20200701  ( make toDos 02)
 //해야 할일을 생성할때마다 toDos라는 array에 추가되도록 한다.
-const toDos = [];
+let toDos = [];
+
+//20200817   ( make toDos 03 )
+function deleteToDo(event){
+    //console.dir(event.target);
+    //console.log(event.target.parentNode);
+    const btn = event.target;
+    const li = btn.parentNode;
+    toDoList.removeChild(li); //html 없애기 성고
+
+    const cleanToDos = toDos.filter(function(todo){
+       // console.log(todo.id , li.id)
+        return todo.id !== parseInt(li.id);
+    });  // filter 거르기
+
+    //console.log(cleanToDos);
+    toDos = cleanToDos;
+    saveToDos();
+}
 
 function saveToDos() {
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
@@ -31,6 +57,9 @@ function paintToDo(text){
   const newId = toDos.length + 1;
 
   delBtn.innerText = "X";
+
+  //20200817
+  delBtn.addEventListener("click",deleteToDo);
   span.innerText = text;
     li.appendChild(delBtn);
     li.appendChild(span); 
